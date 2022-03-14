@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  body
+    if currentUser
+      div.navbar
+        h1
+          a MemO
+        div= currentUser.username 
+    else
+      div.navbar
+        h1
+          a(href="/") MemO
+        a(href="/login") Login
+
+    block content
