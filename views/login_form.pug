@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div.container
+    form(method="POST", action='' ) 
+      div.form-div
+        label(for="email") Email:
+        input(type="email" id="email", name="email" required="true")
+      div.form-div
+        label(for="password") Password:
+        input(type="text" id="password", name="password" required="true")
+      button(type="submit") Submit
+    
+    a(href="/register" class="form-alternative-text") or REGISTER
+
+    if errors 
+      ul
+        for error in errors
+          li= error.msg
+      

@@ -1,9 +1,23 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
+
+const userController = require('../controllers/userController')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', function (req, res, next) {
+  res.render('index', {})
+})
 
-module.exports = router;
+/* GET login page. */
+router.get('/login', userController.user_login_get)
+
+/* POST login page. */
+router.post('/login', userController.user_login_post)
+
+/* GET register page. */
+router.get('/register', userController.user_register_get)
+
+/* POST register page. */
+router.post('/register', userController.user_register_post)
+
+module.exports = router

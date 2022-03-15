@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  div.container
+    form(method="POST", action='' ) 
+      div.form-div
+        label(for="username") Username:
+        input(type="text" id="username", name="username" required="true")
+      div.form-div
+        label(for="email") Email:
+        input(type="email" id="email", name="email" required="true")
+      div.form-div
+        label(for="password") Password:
+        input(type="text" id="password", name="password" required="true")
+      div.form-div
+        label(for="rpassword") Confirm Password:
+        input(type="text" id="rpassword", name="rpassword" required="true")
+      div.avatar-container
+        img(src="/public/images/1.svg" alt="Avatar 1")
+        img(src="/public/images/2.svg" alt="Avatar 2")
+        img(src="/public/images/3.svg" alt="Avatar 3")
+        img(src="/public/images/4.svg" alt="Avatar 4")
+        img(src="/public/images/5.svg" alt="Avatar 5")
+      button(type="submit") Submit
+
+
+    if errors 
+      ul
+        for error in errors
+          li= error.msg
+      

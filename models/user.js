@@ -3,7 +3,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
-  username: { type: String, required: true, minlength: 3, maxLength: 20 },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 3,
+    maxLength: 20,
+  },
   email: {
     type: String,
     trim: true,
@@ -18,6 +24,11 @@ const UserSchema = new Schema({
     required: true,
   },
   isMember: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  isAdmin: {
     type: Boolean,
     required: false,
     default: false,

@@ -26,6 +26,9 @@ mongoose.connection.readyState === 2 ? console.log('MongoDB connected') : ''
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+// public folder
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
