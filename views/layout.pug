@@ -9,7 +9,8 @@ html
       div.navbar
         h1
           a MemO
-        div= currentUser.username 
+        div
+          a(href="/profile")= currentUser.username 
     else
       div.navbar
         h1

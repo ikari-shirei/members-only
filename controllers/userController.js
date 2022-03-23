@@ -8,12 +8,19 @@ const { body, validationResult } = require('express-validator')
 var bcrypt = require('bcryptjs')
 const passport = require('passport')
 
-// GET login
-exports.user_login_get = function (req, res, next) {
+// Check authentication
+const checkAuth = (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect('/')
     return
   }
+}
+
+// GET login
+exports.user_login_get = function (req, res, next) {
+  // Check authentication
+  checkAuth(req, res)
+
   res.render('login_form', {})
 }
 
@@ -35,6 +42,9 @@ exports.user_login_post = [
     .withMessage('password must be over 6 char'),
 
   (req, res, next) => {
+    // Check authentication
+    checkAuth(req, res)
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -55,6 +65,9 @@ exports.user_login_auth_post = passport.authenticate('local', {
 
 // GET register
 exports.user_register_get = function (req, res, next) {
+  // Check authentication
+  checkAuth(req, res)
+
   res.render('register_form', {})
 }
 
@@ -108,6 +121,9 @@ exports.user_register_post = [
   body('avatar').escape(),
 
   (req, res, next) => {
+    // Check authentication
+    checkAuth(req, res)
+
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
@@ -140,3 +156,8 @@ exports.user_register_post = [
     }
   },
 ]
+
+exports.user_logout_post = function (req, res, next) {
+  req.logout()
+  res.redirect('/')
+}

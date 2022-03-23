@@ -44,10 +44,6 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 /* Session*/
-app.use(function (req, res, next) {
-  res.locals.currentUser = req.user
-  next()
-})
 
 app.use(
   session({
@@ -107,6 +103,11 @@ passport.deserializeUser(function (id, done) {
   User.findById(id, function (err, user) {
     done(err, user)
   })
+})
+
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user
+  next()
 })
 
 /* Routes */

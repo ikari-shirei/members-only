@@ -24,4 +24,7 @@ router.get('/register', userController.user_register_get)
 /* POST register page. */
 router.post('/register', userController.user_register_post)
 
+/* POST logout */
+router.post('/logout', userController.user_logout_post)
+
 module.exports = router
