@@ -7,6 +7,8 @@ const { body, validationResult } = require('express-validator')
 var bcrypt = require('bcryptjs')
 const passport = require('passport')
 
+require('dotenv').config()
+
 // Check authentication
 const checkAuthTrue = (req, res) => {
   if (req.isAuthenticated()) {
@@ -179,3 +181,62 @@ exports.user_profile_get = function (req, res, next) {
 
   res.render('profile', {})
 }
+
+// GET membership code
+exports.user_code_post = [
+  body('code', 'Code is must').trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    // Check authentication
+    checkAuthFalse(req, res)
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      console.log(errors)
+      res.render('profile', { errors: errors.array() })
+      return
+    } else {
+      // If code is false
+      if (
+        req.body.code !== process.env.IS_ADMIN &&
+        req.body.code !== process.env.IS_MEMBER
+      ) {
+        console.log('false')
+        res.render('profile', { errors: [{ msg: 'Code is wrong!' }] })
+        return
+      }
+
+      console.log('true')
+
+      let newUserUpdate
+
+      // Only membership code
+      if (req.body.code === process.env.IS_MEMBER) {
+        newUserUpdate = new User({
+          _id: req.user._id,
+          isMember: true,
+        })
+      }
+
+      // Membership and admin code
+      if (req.body.code === process.env.IS_ADMIN) {
+        newUserUpdate = new User({
+          _id: req.user._id,
+          isMember: true,
+          isAdmin: true,
+        })
+      }
+
+      // Code is true
+      User.findByIdAndUpdate(req.user._id, newUserUpdate, {}, (err, result) => {
+        if (err) {
+          return next(err)
+        }
+
+        // Membership updated
+        res.redirect('/profile')
+      })
+    }
+  },
+]

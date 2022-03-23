@@ -10,14 +10,29 @@ block content
                 |
                 div.profile-top-right
                     h1.username= currentUser.username
-                    h5.email= currentUser.email 
+                    h5.email= currentUser.email
+                    if currentUser.isMember && !currentUser.isAdmin
+                        h5.email Member
+                    if currentUser.isAdmin
+                        h5.email Admin
             form(action='/logout' method='POST')
                 button( type="submit" id="logout" ) LOGOUT
             form(action='/delete-account' method='POST')
                 button( type="submit" id="delete") Delete account
+            if !currentUser.isMember
+                form(method="POST", action='/code' ) 
+                    div.form-div
+                        label(for="code") Enter membership code:
+                        input(type="code" id="code", name="code" required="true")
+                    button(type="submit") Submit
+                    if errors 
+                        ul
+                            for error in errors
+                                li= error.msg                    
+
             div.posts
                 h2 Your posts
-                    if currentUser && isMember
+                    if currentUser && currentUser.isMember
                     div.messages.container
                         if messages
                             for message in messages

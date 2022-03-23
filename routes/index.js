@@ -41,4 +41,7 @@ router.post('/logout', userController.user_logout_post)
 /* GET user profile */
 router.get('/profile', userController.user_profile_get)
 
+/* POST membership code */
+router.post('/code', userController.user_code_post)
+
 module.exports = router

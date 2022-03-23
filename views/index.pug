@@ -2,7 +2,7 @@ extends layout
 
 block content
   div.container
-    if currentUser  && isMember
+    if currentUser && currentUser.isMember
       div.messages.container
         if messages
           for message in messages
@@ -18,7 +18,8 @@ block content
                     p.username-message= message.user.username
                 div.timestamp-container
                   p.timestamp-message= message.timestamp
-                  
+                if currentUser.isAdmin
+                  button Delete               
     else
       div.messages.container
         if messages
@@ -30,6 +31,6 @@ block content
               div.message-detail-container
                 div.avatar-username-container
                   div.avatar-message
-                    a(href="/")
-                      img(src=`/images/default.svg`)
+                    img(src=`/images/default.svg`)
                     p.username-message anonymous
+
