@@ -19,7 +19,9 @@ block content
                 div.timestamp-container
                   p.timestamp-message= message.timestamp
                 if currentUser.isAdmin
-                  button Delete               
+                  form(method="POST", action='/delete-message')
+                    input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
+                    button Delete  
     else
       div.messages.container
         if messages

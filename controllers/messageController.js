@@ -66,3 +66,34 @@ exports.message_new_post = [
     }
   },
 ]
+
+// POST delete message
+exports.message_delete_post = [
+  body('targetMessage').trim().escape(),
+
+  (req, res, next) => {
+    // Check authentication
+    checkIfAuth(req, res)
+
+    if (!req.user.isAdmin) {
+      // If unauthorized, send 404
+      return next()
+    }
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      console.log(errors.array())
+      return
+    } else {
+      Message.findByIdAndRemove(req.body.targetMessage, function (err) {
+        if (err) {
+          return next(err)
+        }
+
+        // Message removed
+        res.redirect('/')
+      })
+    }
+  },
+]
