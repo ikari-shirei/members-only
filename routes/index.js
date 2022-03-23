@@ -55,6 +55,9 @@ router.post('/code', userController.user_code_post)
 router.post('/message', messageController.message_new_post)
 
 /* POST ADMIN delete message */
+router.post('/delete-message-admin', messageController.message_deleteAdmin_post)
+
+/* POST delete message */
 router.post('/delete-message', messageController.message_delete_post)
 
 module.exports = router

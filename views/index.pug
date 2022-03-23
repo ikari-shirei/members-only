@@ -13,13 +13,13 @@ block content
               div.message-detail-container
                 div.avatar-username-container
                   div.avatar-message
+                    p.username-message= message.user.username
                     a(href="/")
                       img(src=`/images/${message.user.avatar}.svg`)
-                    p.username-message= message.user.username
                 div.timestamp-container
                   p.timestamp-message= message.timestamp
                 if currentUser.isAdmin
-                  form(method="POST", action='/delete-message')
+                  form(method="POST", action='/delete-message-admin')
                     input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
                     button Delete  
     else

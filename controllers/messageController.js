@@ -68,7 +68,7 @@ exports.message_new_post = [
 ]
 
 // POST delete message
-exports.message_delete_post = [
+exports.message_deleteAdmin_post = [
   body('targetMessage').trim().escape(),
 
   (req, res, next) => {
@@ -93,6 +93,38 @@ exports.message_delete_post = [
 
         // Message removed
         res.redirect('/')
+      })
+    }
+  },
+]
+
+// POST delete message
+exports.message_delete_post = [
+  body('targetMessage', 'message id').trim().escape(),
+  body('targetUser', 'user id').trim().escape(),
+  (req, res, next) => {
+    // Check authentication
+    checkIfAuth(req, res)
+
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      console.log(errors.array())
+      return
+    } else {
+      if (req.user._id.toString() !== req.body.targetUser) {
+        console.log(req.user._id.toString(), req.body.targetUser)
+        // If unauthorized, send 404
+        return next()
+      }
+
+      Message.findByIdAndRemove(req.body.targetMessage, function (err) {
+        if (err) {
+          return next(err)
+        }
+
+        // Message removed
+        res.redirect('/profile')
       })
     }
   },

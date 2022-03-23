@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Message = require('../models/message')
 
 const async = require('async')
 const { body, validationResult } = require('express-validator')
@@ -178,7 +179,16 @@ exports.user_profile_get = function (req, res, next) {
   // Check authentication
   checkIfAuth(req, res)
 
-  res.render('profile', {})
+  // Find if user has messages
+  Message.find({ user: req.user._id })
+    .populate('user')
+    .exec(function (err, results) {
+      if (err) {
+        return next(err)
+      }
+
+      res.render('profile', { messages: results })
+    })
 }
 
 // GET membership code
