@@ -12,6 +12,7 @@ body {
 a {
   text-decoration: none;
   color: aqua;
+  cursor: pointer;
 }
 
 button {
@@ -36,6 +37,7 @@ button {
   width: 90%;
 }
 
+/* Register page */
 .form-div {
   display: flex;
   align-items: center;
@@ -62,6 +64,20 @@ button {
   background-color: black;
   border-radius: 15px;
   transition: 0.5s;
+}
+
+/* Navbar avatar */
+.avatar-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.avatar-layout img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
 }
 
 /* .form-alternative-text {

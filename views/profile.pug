@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    div.container
+        if currentUser
+            div.profile-container
+            div.profile-top
+                div.avatar
+                  img(src=`/images/${currentUser.avatar}.svg`)
+                |
+                div.profile-top-right
+                    h1.username= currentUser.username
+                    h5.email= currentUser.email 
+            form(action='/logout' method='POST')
+                button( type="submit" id="logout" ) LOGOUT
+            form(action='/delete-account' method='POST')
+                button( type="submit" id="delete") Delete account
+            div.posts
+                h2 Your posts
+
+
+

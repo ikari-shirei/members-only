@@ -3,14 +3,16 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/profile.css')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
   body
     if currentUser
       div.navbar
         h1
-          a MemO
-        div
-          a(href="/profile")= currentUser.username 
+          a(href="/") MemO
+        div.avatar-layout
+          a(href="/profile")
+            img(src=`/images/${currentUser.avatar}.svg`) 
     else
       div.navbar
         h1

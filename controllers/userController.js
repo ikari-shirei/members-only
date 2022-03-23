@@ -157,7 +157,13 @@ exports.user_register_post = [
   },
 ]
 
+// POST user logout
 exports.user_logout_post = function (req, res, next) {
   req.logout()
   res.redirect('/')
+}
+
+// GET profile
+exports.user_profile_get = function (req, res, next) {
+  res.render('profile', {})
 }
