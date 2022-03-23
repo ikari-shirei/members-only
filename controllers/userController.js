@@ -66,6 +66,7 @@ exports.user_login_post = [
   },
 ]
 
+// Auth
 exports.user_login_auth_post = passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/login',
@@ -187,7 +188,7 @@ exports.user_profile_get = function (req, res, next) {
         return next(err)
       }
 
-      res.render('profile', { messages: results })
+      res.render('profile', { messages: results.reverse() })
     })
 }
 
@@ -274,10 +275,8 @@ exports.user_otherProfile_get = function (req, res, next) {
         }
       })
 
-      console.log(messages)
-
       res.render('user_profile', {
-        messages: messages,
+        messages: messages.reverse(),
         user: results.user,
       })
     }

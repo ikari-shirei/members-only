@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
         return next(err)
       }
 
-      res.render('index', { messages: messages })
+      res.render('index', { messages: messages.reverse() })
     })
 })
 

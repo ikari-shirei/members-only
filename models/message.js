@@ -15,7 +15,7 @@ MessageSchema.virtual('url').get(function () {
   return '/message/' + this._id
 })
 
-// Date DD/MM/YYYY
+// Date DD/MM/YYYY and hour
 MessageSchema.virtual('readableDate').get(function () {
   return (
     DateTime.fromJSDate(this.timestamp).setLocale('tr').toLocaleString() +

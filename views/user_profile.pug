@@ -34,12 +34,13 @@ block content
                                                 a(href=message.user.url)
                                                     img(src=`/images/${message.user.avatar}.svg`)
                                         div.timestamp-container
-                                            p.timestamp-message= message.timestamp
-                                            
-                                        form(method="POST", action='/delete-message')
-                                            input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
-                                            input(type="password" id="targetUser", name="targetUser" value=`${message.user._id}` style="display: none") 
-                                            button Delete
+                                            p.timestamp-message= message.readableDate
+                                        
+                                        if currentUser.username === user.username
+                                            form(method="POST", action='/delete-message')
+                                                input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
+                                                input(type="password" id="targetUser", name="targetUser" value=`${message.user._id}` style="display: none") 
+                                                button Delete
 
 
 
