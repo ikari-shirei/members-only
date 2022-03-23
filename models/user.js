@@ -20,7 +20,6 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
     minlength: 6,
-    maxLength: 20,
     required: true,
   },
   isMember: {

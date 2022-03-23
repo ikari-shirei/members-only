@@ -11,8 +11,12 @@ router.get('/', function (req, res, next) {
 /* GET login page. */
 router.get('/login', userController.user_login_get)
 
-/* POST login page. */
-router.post('/login', userController.user_login_post)
+/* POST login auth page */
+router.post(
+  '/login',
+  userController.user_login_post,
+  userController.user_login_auth_post
+)
 
 /* GET register page. */
 router.get('/register', userController.user_register_get)

@@ -5,8 +5,15 @@ const async = require('async')
 
 const { body, validationResult } = require('express-validator')
 
+var bcrypt = require('bcryptjs')
+const passport = require('passport')
+
 // GET login
 exports.user_login_get = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    res.redirect('/')
+    return
+  }
   res.render('login_form', {})
 }
 
@@ -20,6 +27,7 @@ exports.user_login_post = [
     .isEmail()
     .withMessage('email must be valid email'),
   body('password')
+    .trim()
     .isLength({ min: 1 })
     .escape()
     .withMessage('password must be specified')
@@ -30,27 +38,20 @@ exports.user_login_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
+      console.log('errors first func')
       res.render('login_form', { errors: errors.array() })
       return
     } else {
-      User.findOne({ email: req.body.email }).exec(function (err, user) {
-        if (err) {
-          return next(err)
-        }
-
-        // Passwords don't match
-        if (req.body.password !== user.password) {
-          res.redirect('/login')
-          return
-        }
-
-        // User signed in
-        res.redirect('/')
-        /* res.redirect(newUser.url) */
-      })
+      console.log('next worked')
+      return next()
     }
   },
 ]
+
+exports.user_login_auth_post = passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+})
 
 // GET register
 exports.user_register_get = function (req, res, next) {
@@ -88,6 +89,7 @@ exports.user_register_post = [
       }
     }),
   body('password')
+    .trim()
     .isLength({ min: 1 })
     .escape()
     .withMessage('password must be specified')
@@ -113,20 +115,27 @@ exports.user_register_post = [
       res.render('register_form', { errors: errors.array() })
       return
     } else {
-      const newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        avatar: req.body.avatar || 1,
-      })
-
-      newUser.save(function (err) {
+      bcrypt.hash(req.body.password, 5, function (err, hash) {
         if (err) {
           return next(err)
         }
 
-        // User registered, redirect
-        res.redirect('/')
+        // create user with hashed password
+        const newUser = new User({
+          username: req.body.username,
+          email: req.body.email,
+          password: hash,
+          avatar: req.body.avatar || 1,
+        })
+
+        newUser.save(function (err) {
+          if (err) {
+            return next(err)
+          }
+
+          // User registered, redirect
+          res.redirect('/')
+        })
       })
     }
   },

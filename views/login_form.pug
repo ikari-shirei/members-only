@@ -17,4 +17,9 @@ block content
       ul
         for error in errors
           li= error.msg
-      
+    
+    if message
+      p= message
+
+    if currentUser 
+      p= currentUser.username

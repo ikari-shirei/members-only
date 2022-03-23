@@ -9,6 +9,14 @@ var usersRouter = require('./routes/users')
 
 const mongoose = require('mongoose')
 require('dotenv').config()
+const MongoStore = require('connect-mongo')
+const session = require('express-session')
+
+const passport = require('passport')
+var bcrypt = require('bcryptjs')
+const LocalStrategy = require('passport-local').Strategy
+
+const User = require('./models/user')
 
 var app = express()
 
@@ -35,6 +43,73 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+/* Session*/
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user
+  next()
+})
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_URI,
+      collection: 'sessions',
+    }),
+    cookie: { maxAge: 1000 * 60 * 60 },
+    sameSite: 'strict',
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+/* Passport */
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+
+    (email, password, done) => {
+      console.log('passport')
+      User.findOne({ email: email }, (err, user) => {
+        console.log('passport 2')
+        if (err) {
+          return done(err)
+        }
+
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username' })
+        }
+
+        bcrypt.compare(password, user.password, (err, res) => {
+          console.log('passport 3')
+          if (res) {
+            return done(null, user)
+          } else {
+            return done(null, false, { message: 'Incorrect password' })
+          }
+        })
+      })
+    }
+  )
+)
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id)
+})
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user)
+  })
+})
+
+/* Routes */
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 
