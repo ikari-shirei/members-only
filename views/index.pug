@@ -18,7 +18,7 @@ block content
                     a(href=message.user.url)
                       img(src=`/images/${message.user.avatar}.svg`)
                 div.timestamp-container
-                  p.timestamp-message= message.timestamp
+                  p.timestamp-message= message.readableDate
                 if currentUser.isAdmin
                   form(method="POST", action='/delete-message-admin')
                     input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
