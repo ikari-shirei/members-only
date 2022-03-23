@@ -31,10 +31,21 @@ button {
   width: 90vw;
 }
 
-/* FORMS */
+/* Container */
 
 .container {
   width: 90%;
+}
+
+/* Messages */
+
+.messages.container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Register page */

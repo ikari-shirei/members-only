@@ -23,12 +23,26 @@ block content
                 form(method="POST", action='/code' ) 
                     div.form-div
                         label(for="code") Enter membership code:
-                        input(type="code" id="code", name="code" required="true")
+                        input(type="text" id="code", name="code" required="true")
                     button(type="submit") Submit
                     if errors 
                         ul
                             for error in errors
-                                li= error.msg                    
+                                li= error.msg 
+            if currentUser.isMember
+                h2 Add post
+                form(method="POST", action='/message' ) 
+                        div.form-div
+                            label(for="title") Title:
+                            input(type="text" id="title", name="title" required="true")
+                        div.form-div
+                            label(for="text") Message:
+                            input(type="text" id="text", name="text" required="true")
+                        button(type="submit") Submit
+                        if errorsPost
+                            ul
+                                for error in errorsPost
+                                    li= error.msg             
 
             div.posts
                 h2 Your posts

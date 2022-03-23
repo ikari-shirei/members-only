@@ -1,7 +1,6 @@
 const User = require('../models/user')
 
 const async = require('async')
-
 const { body, validationResult } = require('express-validator')
 
 var bcrypt = require('bcryptjs')
@@ -10,14 +9,14 @@ const passport = require('passport')
 require('dotenv').config()
 
 // Check authentication
-const checkAuthTrue = (req, res) => {
+const checkIfNotAuth = (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect('/')
     return
   }
 }
 
-const checkAuthFalse = (req, res) => {
+const checkIfAuth = (req, res) => {
   if (!req.isAuthenticated()) {
     res.redirect('/')
     return
@@ -27,7 +26,7 @@ const checkAuthFalse = (req, res) => {
 // GET login
 exports.user_login_get = function (req, res, next) {
   // Check authentication
-  checkAuthTrue(req, res)
+  checkIfNotAuth(req, res)
 
   res.render('login_form', {})
 }
@@ -51,7 +50,7 @@ exports.user_login_post = [
 
   (req, res, next) => {
     // Check authentication
-    checkAuthTrue(req, res)
+    checkIfNotAuth(req, res)
 
     const errors = validationResult(req)
 
@@ -74,7 +73,7 @@ exports.user_login_auth_post = passport.authenticate('local', {
 // GET register
 exports.user_register_get = function (req, res, next) {
   // Check authentication
-  checkAuthTrue(req, res)
+  checkIfNotAuth(req, res)
 
   res.render('register_form', {})
 }
@@ -130,7 +129,7 @@ exports.user_register_post = [
 
   (req, res, next) => {
     // Check authentication
-    checkAuthTrue(req, res)
+    checkIfNotAuth(req, res)
 
     const errors = validationResult(req)
 
@@ -168,7 +167,7 @@ exports.user_register_post = [
 // POST user logout
 exports.user_logout_post = function (req, res, next) {
   // Check authentication
-  checkAuthFalse(req, res)
+  checkIfAuth(req, res)
 
   req.logout()
   res.redirect('/')
@@ -177,7 +176,7 @@ exports.user_logout_post = function (req, res, next) {
 // GET profile
 exports.user_profile_get = function (req, res, next) {
   // Check authentication
-  checkAuthFalse(req, res)
+  checkIfAuth(req, res)
 
   res.render('profile', {})
 }
@@ -188,7 +187,7 @@ exports.user_code_post = [
 
   (req, res, next) => {
     // Check authentication
-    checkAuthFalse(req, res)
+    checkIfAuth(req, res)
 
     const errors = validationResult(req)
 
@@ -202,12 +201,9 @@ exports.user_code_post = [
         req.body.code !== process.env.IS_ADMIN &&
         req.body.code !== process.env.IS_MEMBER
       ) {
-        console.log('false')
         res.render('profile', { errors: [{ msg: 'Code is wrong!' }] })
         return
       }
-
-      console.log('true')
 
       let newUserUpdate
 
