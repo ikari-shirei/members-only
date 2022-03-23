@@ -1,7 +1,35 @@
 extends layout
 
 block content
-  if currentUser
-    h1= currentUser.username
-  else
-    h1 Welcome
+  div.container
+    if currentUser  && isMember
+      div.messages.container
+        if messages
+          for message in messages
+            div.message-container
+              div
+                h1.title= message.title 
+                p.text= message.text
+              div.message-detail-container
+                div.avatar-username-container
+                  div.avatar-message
+                    a(href="/")
+                      img(src=`/images/${message.user.avatar}.svg`)
+                    p.username-message= message.user.username
+                div.timestamp-container
+                  p.timestamp-message= message.timestamp
+                  
+    else
+      div.messages.container
+        if messages
+          for message in messages
+            div.message-container
+              div
+                h1.title= message.title 
+                p.text= message.text
+              div.message-detail-container
+                div.avatar-username-container
+                  div.avatar-message
+                    a(href="/")
+                      img(src=`/images/default.svg`)
+                    p.username-message anonymous

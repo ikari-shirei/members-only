@@ -1,0 +1,56 @@
+.messages.container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 16px;
+  background-color: gainsboro;
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.text {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.message-detail-container {
+}
+
+.avatar-username-container,
+.timestamp-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.avatar-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.avatar-message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+.username-message {
+  margin: 0;
+}
+
+.timestamp-message {
+  opacity: 0.5;
+  margin: 0;
+  text-align: right;
+}

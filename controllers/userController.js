@@ -1,5 +1,4 @@
 const User = require('../models/user')
-const Message = require('../models/message')
 
 const async = require('async')
 
@@ -9,8 +8,15 @@ var bcrypt = require('bcryptjs')
 const passport = require('passport')
 
 // Check authentication
-const checkAuth = (req, res) => {
+const checkAuthTrue = (req, res) => {
   if (req.isAuthenticated()) {
+    res.redirect('/')
+    return
+  }
+}
+
+const checkAuthFalse = (req, res) => {
+  if (!req.isAuthenticated()) {
     res.redirect('/')
     return
   }
@@ -19,7 +25,7 @@ const checkAuth = (req, res) => {
 // GET login
 exports.user_login_get = function (req, res, next) {
   // Check authentication
-  checkAuth(req, res)
+  checkAuthTrue(req, res)
 
   res.render('login_form', {})
 }
@@ -43,7 +49,7 @@ exports.user_login_post = [
 
   (req, res, next) => {
     // Check authentication
-    checkAuth(req, res)
+    checkAuthTrue(req, res)
 
     const errors = validationResult(req)
 
@@ -66,7 +72,7 @@ exports.user_login_auth_post = passport.authenticate('local', {
 // GET register
 exports.user_register_get = function (req, res, next) {
   // Check authentication
-  checkAuth(req, res)
+  checkAuthTrue(req, res)
 
   res.render('register_form', {})
 }
@@ -122,7 +128,7 @@ exports.user_register_post = [
 
   (req, res, next) => {
     // Check authentication
-    checkAuth(req, res)
+    checkAuthTrue(req, res)
 
     const errors = validationResult(req)
 
@@ -159,11 +165,17 @@ exports.user_register_post = [
 
 // POST user logout
 exports.user_logout_post = function (req, res, next) {
+  // Check authentication
+  checkAuthFalse(req, res)
+
   req.logout()
   res.redirect('/')
 }
 
 // GET profile
 exports.user_profile_get = function (req, res, next) {
+  // Check authentication
+  checkAuthFalse(req, res)
+
   res.render('profile', {})
 }
