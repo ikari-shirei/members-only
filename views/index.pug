@@ -13,8 +13,9 @@ block content
               div.message-detail-container
                 div.avatar-username-container
                   div.avatar-message
-                    p.username-message= message.user.username
-                    a(href="/")
+                    a(href=message.user.url)
+                      p.username-message= message.user.username
+                    a(href=message.user.url)
                       img(src=`/images/${message.user.avatar}.svg`)
                 div.timestamp-container
                   p.timestamp-message= message.timestamp

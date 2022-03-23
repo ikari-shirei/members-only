@@ -2,51 +2,23 @@ extends layout
 
 block content
     div.container
-        if currentUser
+        if user
             div.profile-container
             div.profile-top
                 div.avatar
-                    img(src=`/images/${currentUser.avatar}.svg`)
+                    img(src=`/images/${user.avatar}.svg`)
                 |
                 div.profile-top-right
-                    h1.username= currentUser.username
-                    h5.email= currentUser.email
-                    if currentUser.isMember && !currentUser.isAdmin
+                    h1.username= user.username
+                    h5.email= user.email
+                    if user.isMember && !user.isAdmin
                         h5.email Member
-                    if currentUser.isAdmin
+                    if user.isAdmin
                         h5.email Admin
-            form(action='/logout' method='POST')
-                button( type="submit" id="logout" ) LOGOUT
-            form(action='/delete-account' method='POST')
-                button( type="submit" id="delete") Delete account
-            if !currentUser.isMember
-                form(method="POST", action='/code' ) 
-                    div.form-div
-                        label(for="code") Enter membership code:
-                        input(type="text" id="code", name="code" required="true")
-                    button(type="submit") Submit
-                    if errors 
-                        ul
-                            for error in errors
-                                li= error.msg 
-            if currentUser.isMember
-                h2 Add post
-                form(method="POST", action='/message' ) 
-                    div.form-div
-                        label(for="title") Title:
-                        input(type="text" id="title", name="title" required="true")
-                    div.form-div
-                        label(for="text") Message:
-                        input(type="text" id="text", name="text" required="true")
-                    button(type="submit") Submit
-                    if errorsPost
-                        ul
-                            for error in errorsPost
-                                li= error.msg             
 
             div.posts
-                h2 Your posts
-                if currentUser && currentUser.isMember
+                h2= user.username + ' posts'
+                if user && currentUser.isMember
                     div.messages.container
                         if messages
                             for message in messages

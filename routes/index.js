@@ -48,6 +48,9 @@ router.get('/profile', userController.user_profile_get)
 /* POST membership code */
 router.post('/code', userController.user_code_post)
 
+/* GET user profile */
+router.get('/user/:username', userController.user_otherProfile_get)
+
 /* ****************** */
 /* MESSAGE CONTROLLER */
 

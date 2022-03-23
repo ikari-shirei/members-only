@@ -246,3 +246,40 @@ exports.user_code_post = [
     }
   },
 ]
+
+// GET other users profile
+exports.user_otherProfile_get = function (req, res, next) {
+  // Check authentication
+  checkIfAuth(req, res)
+
+  async.parallel(
+    {
+      user: function (cb) {
+        User.findOne({ username: req.params.username }).exec(cb)
+      },
+      allMessages: function (cb) {
+        Message.find().populate('user').exec(cb)
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err)
+      }
+
+      const messages = []
+
+      results.allMessages.map((message) => {
+        if (message.user._id.toString() == results.user._id.toString()) {
+          messages.push(message)
+        }
+      })
+
+      console.log(messages)
+
+      res.render('user_profile', {
+        messages: messages,
+        user: results.user,
+      })
+    }
+  )
+}
