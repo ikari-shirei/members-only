@@ -158,8 +158,8 @@ exports.user_register_post = [
             return next(err)
           }
 
-          // User registered, redirect
-          res.redirect('/')
+          // User registered, send login page
+          res.render('login_form', { registered: true })
         })
       })
     }

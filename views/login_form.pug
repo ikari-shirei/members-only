@@ -2,6 +2,9 @@ extends layout
 
 block content
   div.container
+    if registered
+      div.registered-container
+        h1 You have registered, please log in to continue.
     form(method="POST", action='' ) 
       div.form-div
         label(for="email") Email:
@@ -14,7 +17,7 @@ block content
     div.register-link
       a(href="/register" ) or REGISTER
 
-    if errors 
+    if errors
       ul
         for error in errors
           li= error.msg
