@@ -284,3 +284,33 @@ exports.user_otherProfile_get = function (req, res, next) {
     }
   )
 }
+
+// POST delete account
+exports.user_delete_post = function (req, res, next) {
+  // Check authentication
+  checkIfAuth(req, res)
+
+  async.series(
+    [
+      function (cb) {
+        Message.deleteMany({ user: req.user._id }).exec(function (err, result) {
+          cb(null)
+        })
+      },
+      function (cb) {
+        User.findByIdAndRemove(req.user._id).exec(cb)
+      },
+    ],
+    function (err, result) {
+      if (err) {
+        return next(err)
+      }
+
+      console.log(result)
+
+      // Logout from account
+      req.logout()
+      res.redirect('/')
+    }
+  )
+}

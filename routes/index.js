@@ -51,6 +51,9 @@ router.post('/code', userController.user_code_post)
 /* GET user profile */
 router.get('/user/:username', userController.user_otherProfile_get)
 
+/* POST user delete account */
+router.post('/delete-account', userController.user_delete_post)
+
 /* ****************** */
 /* MESSAGE CONTROLLER */
 
