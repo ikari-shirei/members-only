@@ -22,7 +22,7 @@ block content
                 if currentUser.isAdmin
                   form(method="POST", action='/delete-message-admin')
                     input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
-                    button Delete  
+                    button.delete-button Delete  
     else
       div.messages.container
         if messages

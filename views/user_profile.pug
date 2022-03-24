@@ -9,15 +9,16 @@ block content
                     img(src=`/images/${user.avatar}.svg`)
                 |
                 div.profile-top-right
-                    h1.username= user.username
-                    h5.email= user.email
+                    div
+                        h1.username= user.username
+                        h5.email= user.email
                     if user.isMember && !user.isAdmin
-                        h5.email Member
+                        h5.admin Member
                     if user.isAdmin
-                        h5.email Admin
+                        h5.admin Admin
 
             div.posts
-                h2= user.username + ' posts'
+                h2.profile-header= user.username + ' posts'
                 if user && currentUser.isMember
                     div.messages.container
                         if messages
@@ -40,7 +41,7 @@ block content
                                             form(method="POST", action='/delete-message')
                                                 input(type="password" id="targetMessage", name="targetMessage" value=`${message._id}` style="display: none") 
                                                 input(type="password" id="targetUser", name="targetUser" value=`${message.user._id}` style="display: none") 
-                                                button Delete
+                                                button.delete-button Delete
 
 
 
