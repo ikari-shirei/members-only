@@ -45,25 +45,37 @@ exports.message_new_post = [
 
     const errors = validationResult(req)
 
-    if (!errors.isEmpty()) {
-      res.render('profile', { errorsPost: errors.array() })
-      return
-    } else {
-      const newMessage = new Message({
-        title: req.body.title,
-        text: req.body.text,
-        user: req.user._id,
-      })
-
-      newMessage.save(function (err) {
+    Message.find({ user: req.user._id })
+      .populate('user')
+      .exec(function (err, messages) {
         if (err) {
           return next(err)
         }
 
-        // Message sent
-        res.redirect('/')
+        if (!errors.isEmpty()) {
+          // If error send user's messages too
+          res.render('profile', {
+            errorsPost: errors.array(),
+            messages: messages,
+          })
+          return
+        } else {
+          const newMessage = new Message({
+            title: req.body.title,
+            text: req.body.text,
+            user: req.user._id,
+          })
+
+          newMessage.save(function (err) {
+            if (err) {
+              return next(err)
+            }
+
+            // Message sent
+            res.redirect('/')
+          })
+        }
       })
-    }
   },
 ]
 
