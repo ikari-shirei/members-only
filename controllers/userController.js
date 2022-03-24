@@ -127,7 +127,7 @@ exports.user_register_post = [
     })
     .withMessage('Passwords must match'),
 
-  body('avatar').escape(),
+  body('avatar', 'Something gone wrong').escape(),
 
   (req, res, next) => {
     // Check authentication
@@ -223,6 +223,7 @@ exports.user_code_post = [
         newUserUpdate = new User({
           _id: req.user._id,
           isMember: true,
+          avatar: req.user.avatar,
         })
       }
 
@@ -232,6 +233,7 @@ exports.user_code_post = [
           _id: req.user._id,
           isMember: true,
           isAdmin: true,
+          avatar: req.user.avatar,
         })
       }
 

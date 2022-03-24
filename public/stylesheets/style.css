@@ -71,10 +71,9 @@ button {
   transition: 0.5s;
 }
 
-.avatar-container img:hover {
+.selected {
   background-color: black;
   border-radius: 15px;
-  transition: 0.5s;
 }
 
 /* Navbar avatar */
@@ -90,7 +89,3 @@ button {
   height: 40px;
   border-radius: 100%;
 }
-
-/* .form-alternative-text {
-  text-align: center;
-} */
