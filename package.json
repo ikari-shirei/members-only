@@ -6,6 +6,9 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": "16.13.2"
+  },
   "dependencies": {
     "async": "^3.2.3",
     "bcryptjs": "^2.4.3",

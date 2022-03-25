@@ -3,6 +3,8 @@ var express = require('express')
 var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
+var compression = require('compression')
+var helmet = require('helmet')
 
 var indexRouter = require('./routes/index')
 
@@ -38,6 +40,8 @@ app.set('view engine', 'pug')
 // public folder
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
+app.use(compression())
+app.use(helmet())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
