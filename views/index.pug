@@ -33,7 +33,7 @@ block content
                 p.text= message.text
               div.message-detail-container
                 div.avatar-username-container
-                  div.avatar-message
-                    img(src=`/images/default.svg`)
-                    p.username-message anonymous
-
+                  div(class="avatar-message anonymous")
+                    img(src=`/images/default.svg` alt="avatar" class="anonymous")
+                    p(class="username-message anonymous") anonymous
+ 

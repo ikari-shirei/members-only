@@ -55,10 +55,11 @@
 
 #logout {
   margin-top: 24px;
-  color: #332fd0;
-  background-color: #e15fed;
-  border: 0;
+  color: #e15fed;
+  background: transparent;
+  border: 2px solid #e15fed;
   font-weight: bold;
+  transition: 0.3s;
 }
 
 #delete {
@@ -71,6 +72,10 @@
   width: 100px;
 }
 
+#delete:hover {
+  text-decoration: underline;
+}
+
 .profile-header {
   font-size: 24px;
   font-weight: bold;
@@ -81,10 +86,11 @@
 
 .submit {
   margin-top: 24px;
-  color: #332fd0;
-  background-color: #e15fed;
-  border: 0;
+  color: #e15fed;
+  background: transparent;
+  border: 2px solid #e15fed;
   font-weight: bold;
+  transition: 0.3s;
 }
 
 .delete-button {
@@ -93,6 +99,15 @@
   background: transparent;
   border: 2px solid #e15fed;
   font-weight: bold;
+  transition: 0.3s;
+}
+
+.delete-button:hover,
+.submit:hover,
+#logout:hover {
+  color: #332fd0;
+  background-color: #e15fed;
+  transition: 0.3s;
 }
 
 /* Media queries */

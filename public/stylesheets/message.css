@@ -57,6 +57,10 @@
   margin: 0;
 }
 
+.anonymous {
+  cursor: default;
+}
+
 .timestamp-message {
   opacity: 0.5;
   margin: 0;

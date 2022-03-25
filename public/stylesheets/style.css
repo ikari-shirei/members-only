@@ -17,6 +17,10 @@ a {
   cursor: pointer;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 button {
   width: 100px;
   height: 25px;
@@ -36,6 +40,10 @@ button {
 .navbar-logo {
   font-weight: 200;
   font-style: italic;
+}
+
+.navbar-logo:hover {
+  text-decoration: none;
 }
 
 /* Container */
