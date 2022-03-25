@@ -13,7 +13,7 @@ block content
                         h1.username= currentUser.username
                         h5.email= currentUser.email
                     if currentUser.isMember && !currentUser.isAdmin
-                        h5.email Member
+                        h5.admin Member
                     if currentUser.isAdmin
                         h5.admin Admin
             div.top-form
@@ -22,7 +22,7 @@ block content
                 form(action='/logout' method='POST')
                     button( type="submit" id="logout" ) LOGOUT
             if !currentUser.isMember
-                form(method="POST", action='/code' ) 
+                form(method="POST", action='/code' class="profile-form" ) 
                     div.form-div
                         label(for="code") Enter membership code
                         input(type="text" id="code", name="code" required="true")
@@ -33,7 +33,7 @@ block content
                                 li= error.msg 
             if currentUser.isMember
                 h2.profile-header Add post
-                form(method="POST", action='/message' ) 
+                form(method="POST", action='/message'  class="profile-form" ) 
                     div.form-div
                         label(for="title") Title
                         input(type="text" id="title", name="title" required="true")

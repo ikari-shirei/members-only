@@ -101,3 +101,15 @@
   border: 2px solid #e15fed;
   font-weight: bold;
 }
+
+/* Media queries */
+
+@media screen and (min-width: 1024px) {
+  .profile-form {
+    width: 500px;
+  }
+
+  .top-form {
+    width: 500px;
+  }
+}
