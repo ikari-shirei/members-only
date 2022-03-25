@@ -1,10 +1,3 @@
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .avatar {
   display: flex;
   align-items: center;
@@ -105,11 +98,27 @@
 /* Media queries */
 
 @media screen and (min-width: 1024px) {
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .profile-form {
-    width: 500px;
+    width: 634px;
   }
 
   .top-form {
-    width: 500px;
+    width: 634px;
+  }
+
+  .profile-top {
+    width: 634px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .posts {
+    align-items: center;
   }
 }
