@@ -1,4 +1,4 @@
-const body = document.getElementsByTagName('body')[0]
+/* eslint-disable no-undef */
 const images = document.getElementsByClassName('avatarImg')
 const avatarInput = document.getElementById('avatarRegister')
 
@@ -23,7 +23,5 @@ for (let i = 0; i < images.length; i++) {
       .join('')
 
     avatarInput.value = selectedValue
-
-    console.log(avatarInput.value)
   })
 }

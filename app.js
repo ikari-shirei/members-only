@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
 var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
 
 const mongoose = require('mongoose')
 require('dotenv').config()
@@ -27,7 +26,9 @@ const mongoDb = process.env.DB_URI
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true })
 const db = mongoose.connection
 
+// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'mongo connection error'))
+// eslint-disable-next-line no-console
 mongoose.connection.readyState === 2 ? console.log('MongoDB connected') : ''
 
 // view engine setup
@@ -71,9 +72,7 @@ passport.use(
     },
 
     (email, password, done) => {
-      console.log('passport')
       User.findOne({ email: email }, (err, user) => {
-        console.log('passport 2')
         if (err) {
           return done(err)
         }
@@ -83,7 +82,6 @@ passport.use(
         }
 
         bcrypt.compare(password, user.password, (err, res) => {
-          console.log('passport 3')
           if (res) {
             return done(null, user)
           } else {
@@ -112,7 +110,6 @@ app.use(function (req, res, next) {
 
 /* Routes */
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -120,7 +117,7 @@ app.use(function (req, res, next) {
 })
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}

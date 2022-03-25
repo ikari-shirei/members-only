@@ -25,7 +25,7 @@ const checkIfAuth = (req, res) => {
 }
 
 // GET login
-exports.user_login_get = function (req, res, next) {
+exports.user_login_get = function (req, res) {
   // Check authentication
   checkIfNotAuth(req, res)
 
@@ -56,11 +56,9 @@ exports.user_login_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log('errors first func')
       res.render('login_form', { errors: errors.array() })
       return
     } else {
-      console.log('next worked')
       return next()
     }
   },
@@ -73,7 +71,7 @@ exports.user_login_auth_post = passport.authenticate('local', {
 })
 
 // GET register
-exports.user_register_get = function (req, res, next) {
+exports.user_register_get = function (req, res) {
   // Check authentication
   checkIfNotAuth(req, res)
 
@@ -89,7 +87,7 @@ exports.user_register_post = [
     .withMessage('username must be specified')
     .isLength({ min: 3 })
     .withMessage('username at least must be 3 character')
-    .custom(async (username, { req }) => {
+    .custom(async (username) => {
       const isUsername = await User.findOne({ username: username })
 
       if (isUsername) {
@@ -103,7 +101,7 @@ exports.user_register_post = [
     .withMessage('email must be specified ')
     .isEmail()
     .withMessage('email must be valid email')
-    .custom(async (email, { req }) => {
+    .custom(async (email) => {
       const isEmail = await User.findOne({ email: email })
 
       if (isEmail) {
@@ -118,7 +116,6 @@ exports.user_register_post = [
     .isLength({ min: 6 })
     .withMessage('password must be over 6 char')
     .custom((password, { req }) => {
-      console.log(req.body.rpassword, password, 'this')
       if (password !== req.body.rpassword) {
         return false
       } else {
@@ -136,7 +133,6 @@ exports.user_register_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log(errors)
       res.render('register_form', { errors: errors.array() })
       return
     } else {
@@ -167,7 +163,7 @@ exports.user_register_post = [
 ]
 
 // POST user logout
-exports.user_logout_post = function (req, res, next) {
+exports.user_logout_post = function (req, res) {
   // Check authentication
   checkIfAuth(req, res)
 
@@ -203,7 +199,6 @@ exports.user_code_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log(errors)
       res.render('profile', { errors: errors.array() })
       return
     } else {
@@ -238,7 +233,7 @@ exports.user_code_post = [
       }
 
       // Code is true
-      User.findByIdAndUpdate(req.user._id, newUserUpdate, {}, (err, result) => {
+      User.findByIdAndUpdate(req.user._id, newUserUpdate, {}, (err) => {
         if (err) {
           return next(err)
         }
@@ -293,7 +288,7 @@ exports.user_delete_post = function (req, res, next) {
   async.series(
     [
       function (cb) {
-        Message.deleteMany({ user: req.user._id }).exec(function (err, result) {
+        Message.deleteMany({ user: req.user._id }).exec(function () {
           cb(null)
         })
       },
@@ -301,12 +296,10 @@ exports.user_delete_post = function (req, res, next) {
         User.findByIdAndRemove(req.user._id).exec(cb)
       },
     ],
-    function (err, result) {
+    function (err) {
       if (err) {
         return next(err)
       }
-
-      console.log(result)
 
       // Logout from account
       req.logout()

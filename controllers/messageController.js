@@ -1,18 +1,8 @@
-const User = require('../models/user')
 const Message = require('../models/message')
 
-const async = require('async')
 const { body, validationResult } = require('express-validator')
 
 require('dotenv').config()
-
-// Check authentication
-const checkIfNotAuth = (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect('/')
-    return
-  }
-}
 
 const checkIfAuth = (req, res) => {
   if (!req.isAuthenticated()) {
@@ -95,8 +85,7 @@ exports.message_deleteAdmin_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log(errors.array())
-      return
+      return next(errors.array())
     } else {
       Message.findByIdAndRemove(req.body.targetMessage, function (err) {
         if (err) {
@@ -121,11 +110,9 @@ exports.message_delete_post = [
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      console.log(errors.array())
-      return
+      return next(errors.array())
     } else {
       if (req.user._id.toString() !== req.body.targetUser) {
-        console.log(req.user._id.toString(), req.body.targetUser)
         // If unauthorized, send 404
         return next()
       }
